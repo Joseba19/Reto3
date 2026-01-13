@@ -10,10 +10,11 @@ def crearTablas():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             codigo VARCHAR(50) UNIQUE NOT NULL,
             descripcion VARCHAR(200) NOT NULL,
-            stock INTEGER DEFAULT 0
+            stock INTEGER DEFAULT 0,
+            ultimaEntrada DATE NOT NULL
         );
             """)
-    
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS recepciones (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,32 +42,46 @@ def crearTablas():
     conn.commit()
     conn.close()
 
-def insertarEntradas(fecha, codigo, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones):
+def insertarEntradas():
     conn = sqlite3.connect("inventario.db")
     cursor = conn.cursor()
     cursor.execute("SELECT MAX(fecha) FROM recepciones")
     ultimaFecha = cursor.fetchall()
     
-    if ultimaFecha[0][0] is None or ultimaFecha[0][0] >= fecha:
-        cursor.execute(f"INSERT INTO recepciones(fecha, codigo_componente, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones) VALUES ('{fecha}', '{codigo}', '{descripcion}', {cantidad}, '{cantidad_defectuosas}', '{proveedor}', '{lote}', '{estado}', '{observaciones}')")
+    with open(f"Archivos/entrada{date.today()}.json", "r") as f:
+                inventario = json.load(f)
+
+    if date.today() > date.fromisoformat(ultimaFecha[0][0]):
+        for recepcion in inventario['recepciones']:
+            fecha = recepcion["fecha"]
+            codigo = recepcion["codigo"]
+            descripcion = recepcion["descripcion"]
+            cantidad = recepcion["cantidad"]
+            proveedor = recepcion["proveedor"]
+            lote = recepcion["lote"]
+            estado = recepcion["estado"]
+            cantidad_defectuosas = recepcion["cantidad_defectuosas"]
+            observaciones = recepcion["observaciones"]
+        
+            cursor.execute(f"INSERT INTO recepciones(fecha, codigo_componente, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones) VALUES ('{fecha}', '{codigo}', '{descripcion}', {cantidad}, '{cantidad_defectuosas}', '{proveedor}', '{lote}', '{estado}', '{observaciones}')")
     conn.commit()
     conn.close()
 
-def entradaToComponentes(fecha):
+def entradaToComponentes():
     conn = sqlite3.connect("inventario.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM recepciones")
     salida = cursor.fetchall()
-    cursor.execute("SELECT MAX(fecha) FROM recepciones")
+    cursor.execute("SELECT MAX(ultimaEntrada) FROM componentes")
     ultimaFecha = cursor.fetchall()
-
-    if ultimaFecha[0][0] <= fecha:
+    
+    if date.today() > date.fromisoformat(ultimaFecha[0][0]):
         for s in salida:
             cursor.execute(f"SELECT * FROM componentes WHERE codigo = '{s[2]}'")
             fila = cursor.fetchall()
             
             if len(fila) == 0:
-                cursor.execute(f"INSERT INTO componentes(codigo, descripcion, stock) VALUES ('{s[2]}', '{s[3]}', {s[4]})")
+                cursor.execute(f"INSERT INTO componentes(codigo, descripcion, stock, ultimaEntrada) VALUES ('{s[2]}', '{s[3]}', {s[4]}, '{s[1]}')")
             elif len(fila) > 0:
                 cursor.execute(f"UPDATE componentes SET stock = stock + {s[4]} WHERE codigo = '{s[2]}'")
 
@@ -106,22 +121,8 @@ if __name__ == "__main__":
         eleccion = int(input())
         
         if eleccion == 1:
-            with open(f"Archivos/entrada{date.today()}.json", "r") as f:
-                inventario = json.load(f)
-
-            for recepcion in inventario['recepciones']:
-                fecha = recepcion["fecha"]
-                codigo = recepcion["codigo"]
-                descripcion = recepcion["descripcion"]
-                cantidad = recepcion["cantidad"]
-                proveedor = recepcion["proveedor"]
-                lote = recepcion["lote"]
-                estado = recepcion["estado"]
-                cantidad_defectuosas = recepcion["cantidad_defectuosas"]
-                observaciones = recepcion["observaciones"]
-                insertarEntradas(fecha, codigo, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones)
-
-            entradaToComponentes(fecha)
+            insertarEntradas()
+            entradaToComponentes()
         elif eleccion == 2:
             print("")
             visualizarComponentes()
