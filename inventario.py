@@ -35,8 +35,9 @@ def crearTablas():
             id_recepcion INTEGER NOT NULL,
             cantidad_defectuosa INTEGER NOT NULL,
             tipo_defecto VARCHAR(100),
+            ultimaEntrada DATE NOT NULL,
             FOREIGN KEY (id_recepcion) REFERENCES recepciones(id)
-        );   
+        );
             """)
     
     conn.commit()
@@ -62,7 +63,7 @@ def insertarEntradas():
             estado = recepcion["estado"]
             cantidad_defectuosas = recepcion["cantidad_defectuosas"]
             observaciones = recepcion["observaciones"]
-        
+
             cursor.execute(f"INSERT INTO recepciones(fecha, codigo_componente, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones) VALUES ('{fecha}', '{codigo}', '{descripcion}', {cantidad}, '{cantidad_defectuosas}', '{proveedor}', '{lote}', '{estado}', '{observaciones}')")
     conn.commit()
     conn.close()
@@ -88,6 +89,21 @@ def entradaToComponentes():
     conn.commit()
     conn.close()
 
+def entradaToDefectuosos():
+    conn = sqlite3.connect("inventario.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM recepciones")
+    salida = cursor.fetchall()
+    cursor.execute("SELECT MAX(ultimaEntrada) FROM defectuosos")
+    ultimaFecha = cursor.fetchall()
+    
+    if date.today() > date.fromisoformat(ultimaFecha[0][0]):
+        for s in salida:
+            if s[5] != 0:
+                cursor.execute(f"INSERT INTO defectuosos(id_recepcion, cantidad_defectuosa, tipo_defecto, ultimaEntrada) VALUES ({s[0]}, {s[5]}, '{s[9]}', '{s[1]}')")
+    conn.commit()
+    conn.close()
+
 def visualizarComponentes():
     conn = sqlite3.connect("inventario.db")
     cursor = conn.cursor()
@@ -110,23 +126,25 @@ def eliminarTablas():
     conn.close()
 
 if __name__ == "__main__":
-    exit = True
+    exit = False
     crearTablas()
-    while exit == True:
+    while exit == False:
         print("\n=== INVENTARIO ===\n")
         print("1: Insertar nueva entrada")
         print("2: Visualizar componentes y stock")
-        print("3: Elminar la base de datos")
-        print("4: Salir")
+        print("3: Buscar componente")
+        print("4: Elminar la base de datos")
+        print("5: Salir")
         eleccion = int(input())
         
         if eleccion == 1:
             insertarEntradas()
             entradaToComponentes()
+            entradaToDefectuosos()
         elif eleccion == 2:
             print("")
             visualizarComponentes()
         elif eleccion == 3:
             eliminarTablas()
         elif eleccion == 4:
-            exit = False
+            exit = True
