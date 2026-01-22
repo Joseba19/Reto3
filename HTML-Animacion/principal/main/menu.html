@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Página Web</title>
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+    </head>
+    <body>
+    <header>
+        <nav>
+        <ul>
+            <li><a href="#inicio" onclick="showSection('inicio')">Inicio</a></li>
+            <li>
+            <a href="#sobre-nosotros" onclick="showSection('sobre-nosotros')"
+                >Sobre Nosotros</a
+            >
+            </li>
+            <li>
+            <a href="#animacion" onclick="showSection('animacion')"
+                >Animación</a
+            >
+            </li>
+            <li>
+            <a href="#faq" onclick="showSection('faq')">Preguntas Frecuentes</a>
+            </li>
+        </ul>
+        </nav>
+
+        <div class="controles-tema">
+        <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+    </header>
+
+    <div class="content">
+        <section id="inicio" class="section active">
+        <h1>Bienvenidos a Nuestra Empresa</h1>
+        <p>
+            Somos una empresa dedicada a ofrecer soluciones innovadoras y de
+            calidad en el sector automotriz. Con años de experiencia en el
+            mercado, nos hemos consolidado como líderes en diseño y desarrollo de
+            vehículos modernos.
+        </p>
+        <p>
+            Nuestra misión es proporcionar a nuestros clientes productos
+            excepcionales que combinen tecnología, seguridad y estilo. Trabajamos
+            constantemente para superar las expectativas y crear experiencias
+            únicas de conducción.
+        </p>
+
+        <div class="car-container">
+            <div class="car">
+            <div class="car-top">
+                <div class="window window-left"></div>
+                <div class="window window-right"></div>
+            </div>
+            <div class="car-body"></div>
+            <div class="wheel wheel-left">
+                <div class="wheel-center"></div>
+            </div>
+            <div class="wheel wheel-right">
+                <div class="wheel-center"></div>
+            </div>
+            </div>
+        </div>
+        </section>
+
+        <section id="sobre-nosotros" class="section">
+        <h1>Sobre Nosotros</h1>
+        <p>
+            Fundada en 2010, nuestra empresa ha crecido para convertirse en un
+            referente en la industria automotriz. Contamos con un equipo de
+            profesionales altamente cualificados que trabajan día a día para
+            innovar y mejorar.
+        </p>
+        <p>
+            Nuestros valores fundamentales incluyen la excelencia, la innovación,
+            la sostenibilidad y el compromiso con nuestros clientes. Creemos en
+            construir relaciones duraderas basadas en la confianza y la calidad.
+        </p>
+        <p>
+            Con presencia en múltiples países, seguimos expandiendo nuestros
+            horizontes para llevar nuestros productos y servicios a más personas
+            alrededor del mundo.
+        </p>
+        </section>
+
+        <section id="animacion" class="section">
+        <h1>Línea de Producción</h1>
+        <p class="subtitulo-animacion">
+            Los vehículos se mueven por la línea de producción. La estación de
+            <strong>Pintura</strong> es un cuello de botella donde se
+            ralentiza el proceso.
+        </p>
+
+        <div class="controles-animacion">
+            <div class="control-velocidad">
+            <label for="velocidad">Velocidad:</label>
+            <input
+                type="range"
+                id="velocidad"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value="1"
+            />
+            <span id="valor-velocidad">1x</span>
+            </div>
+        </div>
+
+        <div class="contenedor-linea">
+            <div class="cinta">
+            <!-- Estaciones de trabajo -->
+            <div class="estacion estacion-1">
+                Montaje
+                <span class="estacion-tiempo">3s</span>
+            </div>
+
+            <div class="estacion estacion-2">
+                Pintura
+                <span class="estacion-tiempo">8s</span>
+            </div>
+
+            <div class="estacion estacion-3">
+                Control
+                <span class="estacion-tiempo">3s</span>
+            </div>
+
+            <!-- Camino transportador -->
+            <div class="camino">
+                <!-- Vehículos -->
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+            </div>
+            </div>
+        </div>
+
+        <div class="panel-info">
+            <div class="badge badge-montaje">
+            <span>Montaje</span> - Ensamblaje inicial (3s)
+            </div>
+            <div class="badge badge-pintura">
+            <span>Pintura (Cuello de botella)</span> - Proceso lento (8s)
+            </div>
+            <div class="badge badge-control">
+            <span>Control de Calidad</span> - Inspección final (3s)
+            </div>
+        </div>
+
+        <div class="nota-animacion">
+            <strong>Nota:</strong> La estación de Pintura parpadea porque es
+            donde se genera el cuello de botella. Los vehículos se ralentizan en
+            esta zona, causando acumulación en la línea de producción.
+        </div>
+        </section>
+
+        <section id="faq" class="section">
+        <h1>Preguntas Frecuentes</h1>
+
+        <div class="faq-item">
+            <h3>¿Qué servicios ofrecen?</h3>
+            <p>
+            Ofrecemos diseño, desarrollo y consultoría en el sector automotriz,
+            además de servicios de mantenimiento y personalización de vehículos.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Dónde están ubicados?</h3>
+            <p>
+            Tenemos oficinas en varias ciudades principales. Contáctanos para
+            encontrar la ubicación más cercana a ti.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Cómo puedo contactarlos?</h3>
+            <p>
+            Puedes contactarnos a través de nuestro formulario de contacto en la
+            web, por teléfono o visitando nuestras oficinas directamente.
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Ofrecen garantía en sus productos?</h3>
+            <p>
+            Sí, todos nuestros productos cuentan con garantía extendida y
+            servicio postventa de calidad.
+            </p>
+        </div>
+        </section>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+            section.classList.remove("active");
+        });
+        document.getElementById(sectionId).classList.add("active");
+        }
+
+      // Cambiar tema claro/oscuro
+        let modoOscuro = false;
+        function cambiarTema() {
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+
+        if (modoOscuro) {
+            link.setAttribute("href", "claro.css");
+            btn.textContent = "Modo Oscuro";
+            modoOscuro = false;
+        } else {
+            link.setAttribute("href", "oscuro.css");
+            btn.textContent = "Modo Claro";
+            modoOscuro = true;
+        }
+        }
+
+      // Control de velocidad de animación
+        const inputVelocidad = document.getElementById("velocidad");
+        const valorVelocidad = document.getElementById("valor-velocidad");
+
+        inputVelocidad.addEventListener("input", function () {
+        const velocidad = this.value;
+        valorVelocidad.textContent = velocidad + "x";
+
+        const duracion = 15 / velocidad;
+        const coches = document.querySelectorAll(".coche-animado");
+
+        coches.forEach((coche) => {
+            coche.style.animationDuration = duracion + "s";
+        });
+        });
+    </script>  
+    </body>
+</html>
