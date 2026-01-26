@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .form-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+        }
+        button {
+            background: #dc3545;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #c82333;
+        }
+        .success {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h1>Complaint Form</h1>
+        
+        <div class="success" id="msg">
+            Complaint submitted! Reference: <strong>COMP-<span id="ref"></span></strong>
+        </div>
+
+        <form id="form">
+            <label>Name *</label>
+            <input type="text" required>
+
+            <label>Email *</label>
+            <input type="email" required>
+
+            <label>Company</label>
+            <input type="text">
+
+            <label>Vehicle Model</label>
+            <input type="text" placeholder="e.g., Model X 2024">
+
+            <label>VIN / Serial Number</label>
+            <input type="text">
+
+            <label>Problem Type *</label>
+            <select required>
+                <option value="">Select...</option>
+                <option>Product Defect</option>
+                <option>Delivery Issue</option>
+                <option>Service Problem</option>
+                <option>Warranty Issue</option>
+                <option>Other</option>
+            </select>
+
+            <label>Priority *</label>
+            <select required>
+                <option value="">Select...</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+            </select>
+
+            <label>Detailed Description *</label>
+            <textarea required placeholder="Explain the problem..."></textarea>
+
+            <button type="submit">Submit Complaint</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form').onsubmit = function(e) {
+            e.preventDefault();
+            const refNum = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('ref').textContent = refNum;
+            document.getElementById('msg').style.display = 'block';
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('msg').style.display = 'none';
+            }, 5000);
+        };
+    </script>
+</body>
+</html>

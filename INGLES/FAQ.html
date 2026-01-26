@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .faq-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .question:hover {
+            background: #e9ecef;
+        }
+        .answer {
+            padding: 15px;
+            display: none;
+            border-left: 3px solid #007bff;
+            margin-bottom: 10px;
+        }
+        .answer.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-box">
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="question" onclick="toggle(0)">How do I order spare parts?</div>
+        <div class="answer" id="a0">Contact your sales representative with the VIN and part number. Orders are processed within 24 hours.</div>
+
+        <div class="question" onclick="toggle(1)">What is the delivery time?</div>
+        <div class="answer" id="a1">Standard delivery: 3-5 business days (US), 2-4 days (UK). Express options available.</div>
+
+        <div class="question" onclick="toggle(2)">How do I report a defect?</div>
+        <div class="answer" id="a2">Use the complaint form on our website. Include photos and the VIN. Response within 24-48 hours.</div>
+
+        <div class="question" onclick="toggle(3)">Where are technical manuals?</div>
+        <div class="answer" id="a3">Technical documentation is available on our support portal. Contact support for access.</div>
+
+        <div class="question" onclick="toggle(4)">What is the warranty period?</div>
+        <div class="answer" id="a4">Standard parts: 12 months. Powertrain: 24 months. Proof of purchase required.</div>
+
+        <div class="question" onclick="toggle(5)">Can I cancel an order?</div>
+        <div class="answer" id="a5">Orders can be cancelled within 24 hours if not in production. Contact your sales rep immediately.</div>
+
+        <div class="question" onclick="toggle(6)">How do I track my shipment?</div>
+        <div class="answer" id="a6">Tracking information is sent by email. You can also check status on our customer portal.</div>
+
+        <div class="question" onclick="toggle(7)">What payment methods do you accept?</div>
+        <div class="answer" id="a7">Bank transfer, corporate credit cards, and purchase orders (approved accounts only).</div>
+    </div>
+
+    <script>
+        function toggle(num) {
+            const answer = document.getElementById('a' + num);
+            answer.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
