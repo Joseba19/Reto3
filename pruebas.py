@@ -1,4 +1,3 @@
-#Importamos todas las bibliotecas necesarias
 import json
 import sqlite3
 from datetime import date
@@ -6,9 +5,7 @@ import pandas as pd
 
 bbdd = "inventario.db"
 
-#Funcion para crear las tablas cuando se ejecute el archivo
 def crearTablas():
-    #Conexion a la base de datos
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
     cursor.execute("""         
@@ -49,19 +46,15 @@ def crearTablas():
     conn.commit()
     conn.close()
 
-#Funcion para leer el JSON del dia e introducir los datos en la tabla recepciones
 def insertarEntradas():
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
-    #Consulta SQL para leer los datos de recepciones, con el fin de ver cual ha sido la ultima fecha en la que ha entrado un producto
     cursor.execute("SELECT MAX(fecha) FROM recepciones")
     ultimaFecha = cursor.fetchall()
     
-    #Abre el archivo que contiene la fecha de hoy
     with open(f"Archivos/entrada{date.today()}.json", "r") as f:
                 inventario = json.load(f)
 
-    #Si la fecha actual es mayor a la ultima fecha registrada recorre el archivo guardando en variables todos los datos, para despues introducirlos con una consulta SQL (Linea 77)
     if date.today() > date.fromisoformat(ultimaFecha[0][0]):
         for recepcion in inventario['recepciones']:
             fecha = recepcion["fecha"]
@@ -75,35 +68,33 @@ def insertarEntradas():
             observaciones = recepcion["observaciones"]
 
             cursor.execute(f"INSERT INTO recepciones(fecha, codigo_componente, descripcion, cantidad, cantidad_defectuosas, proveedor, lote, estado, observaciones) VALUES ('{fecha}', '{codigo}', '{descripcion}', {cantidad}, '{cantidad_defectuosas}', '{proveedor}', '{lote}', '{estado}', '{observaciones}')")
+            print("Datos introducidos correctamente")
     else:
-       print("\nNo hay datos nuevos que insertar")
+       print("No hay datos nuevos que insertar")
     conn.commit()
     conn.close()
 
-#Funcion para pasar los componentes que han entrado a la tabla recepciones a la tabla componentes
 def entradaToComponentes():
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
-    #Consulta para sacar todas las recepciones
     cursor.execute("SELECT * FROM recepciones")
     salida = cursor.fetchall()
     cursor.execute("SELECT MAX(ultimaEntrada) FROM componentes")
     ultimaFecha = cursor.fetchall()
-
-    #Si la fecha de hoy es mayor a la del ultimo componente registrado, se ejecuta el bucle
+    
     if date.today() > date.fromisoformat(ultimaFecha[0][0]):
         for s in salida:
-            #Consulta para ver si ya existe ese componente en la tabla componentes
             cursor.execute(f"SELECT * FROM componentes WHERE codigo = '{s[2]}'")
             fila = cursor.fetchall()
             
-            #Consulta para ver la fecha mas alta de la tabla recepciones
             cursor.execute("SELECT MAX(fecha) FROM recepciones")
             ultimaFecha = cursor.fetchall()
 
-            #Si la fecha de esa entrada es igual a la de la ultima llegada, se ejecuta el bucle
+            #print(ultimaFecha[0][0])
+            #print(s[1])
+
             if s[1] == ultimaFecha[0][0]:
-                #Si el componente no ha sido registrado anteriormente, introduce uno nuevo, si ya existe actualiza el stock y la fehca de entrada
+                print(s)
                 if len(fila) == 0:
                     cursor.execute(f"INSERT INTO componentes(codigo, descripcion, stock, ultimaEntrada) VALUES ('{s[2]}', '{s[3]}', {s[4]}, '{s[1]}')")
                 elif len(fila) > 0:
@@ -113,44 +104,21 @@ def entradaToComponentes():
     conn.commit()
     conn.close()
 
-#Funcion para pasar los componentes registrados como defectuosos a la tabla defectuosos
-#Se ha cambiado la manera de indexar datos por problemas con el f"", falta revisar
 def entradaToDefectuosos():
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
+    cursor.execute("SELECT * FROM recepciones")
+    salida = cursor.fetchall()
     cursor.execute("SELECT MAX(ultimaEntrada) FROM defectuosos")
     ultimaFecha = cursor.fetchall()
     
-    #Si esto era para arrancar la tabla, ya no deberia ser necesario
-    if ultimaFecha[0][0] is None:
-        cursor.execute("SELECT * FROM recepciones WHERE cantidad_defectuosas != 0")
-    else:
-        cursor.execute(
-            "SELECT * FROM recepciones WHERE fecha > ? AND cantidad_defectuosas != 0",
-            (ultimaFecha[0][0],)
-        )
-    #Selecciona los registros de recepciones que tengan algun defectos y que tengan la fecha mas reciente
-    salida = cursor.fetchall()
-    
-    for s in salida:
-        cursor.execute(
-            "SELECT id FROM defectuosos WHERE id_recepcion = ? AND tipo_defecto = ?",
-            (s[0], s[9])
-        )
-        existe = cursor.fetchone()
-        
-        if not existe:
-            cursor.execute(
-                """INSERT INTO defectuosos(id_recepcion, cantidad_defectuosa, tipo_defecto, ultimaEntrada) 
-                   VALUES (?, ?, ?, ?)""",
-                (s[0], s[5], s[9], s[1])
-            )
-            print(f"Defecto registrado para recepción {s[0]}")
-    
+    if date.today() > date.fromisoformat(ultimaFecha[0][0]):
+        for s in salida:
+            if s[5] != 0:
+                cursor.execute(f"INSERT INTO defectuosos(id_recepcion, cantidad_defectuosa, tipo_defecto, ultimaEntrada) VALUES ({s[0]}, {s[5]}, '{s[9]}', '{s[1]}')")
     conn.commit()
     conn.close()
 
-#Funcion imprimir por pantalla los componentes de la tabla componentes
 def visualizarComponentes():
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
@@ -163,55 +131,43 @@ def visualizarComponentes():
     conn.commit()
     conn.close()
 
-#Funcion para buscar componentes defectuosos
 def buscarComponente(componente):
     conn = sqlite3.connect(bbdd)
     cursor = conn.cursor()
-    #Consulta SQL generada con Inteligencia Artificial
-    cursor.execute("""
-        SELECT 
-            c.codigo, 
-            c.descripcion, 
-            def.tipo_defecto, 
-            def.total_defectuosos
+    #Consulta SQL generada mediante Inteligencia Artificial
+    cursor.execute(f"""
+        SELECT c.codigo, c.descripcion, d.tipo_defecto, SUM(d.cantidad_defectuosa) AS total_defectuosos
         FROM componentes c
-        JOIN (
-            SELECT 
-                r.codigo_componente,
-                d.tipo_defecto,
-                SUM(d.cantidad_defectuosa) AS total_defectuosos
-            FROM defectuosos d
-            JOIN recepciones r ON r.id = d.id_recepcion
-            GROUP BY r.codigo_componente, d.tipo_defecto
-        ) def ON def.codigo_componente = c.codigo
-        WHERE c.codigo = ?
-        ORDER BY def.total_defectuosos DESC
-        """, (componente,))
-    
+        JOIN recepciones r 
+        ON r.codigo_componente = c.codigo
+        JOIN defectuosos d 
+        ON d.id_recepcion = r.id
+        WHERE c.codigo = '{componente}'
+        GROUP BY c.codigo, c.descripcion, d.tipo_defecto
+        ORDER BY total_defectuosos DESC;
+        """)
     salida = cursor.fetchall()
     
     if salida:
         for s in salida:
             print(f"\n{s[0]}: {s[1]}")
-            print(f"Unidades defectuosas: {s[3]}")  # ← Esto mostrará 6
+            print(f"Unidades defectuosas: {s[3]}")
             print(f"Motivo: {s[2]}")   
     else:
         print("\nNo hay componentes defectuosos")
 
-    conn.close()
-    
-#Funcion para eliminar las tablas en caso de que sea necesario (actualmente)
-def eliminarTablas():
-    conn = sqlite3.connect(bbdd)
-    cursor = conn.cursor()
-    #cursor.execute("DROP TABLE recepciones")
-    #cursor.execute("DROP TABLE componentes")
-    #cursor.execute("DROP TABLE defectuosos")
     conn.commit()
     conn.close()
 
-#Funcion sacada con la informacion de la documentacion oficial de pandas
-#Funcion para exportar la tabla componentes en formato CSV
+def eliminarTablas():
+    conn = sqlite3.connect(bbdd)
+    cursor = conn.cursor()
+    cursor.execute("DROP TABLE recepciones")
+    cursor.execute("DROP TABLE componentes")
+    cursor.execute("DROP TABLE defectuosos")
+    conn.commit()
+    conn.close()
+
 def exportarcsv(nombreCSV = "componentes"):
     conn = sqlite3.connect(bbdd)
     query = "SELECT * FROM componentes"
@@ -222,18 +178,17 @@ def exportarcsv(nombreCSV = "componentes"):
 
     conn.close()
 
-#Funcion que sirve para elinimar el stock de un componente de manera manual, aun por implementar
-def eliminarstock(componente, cantidad):
-    pass
-    
+def eliminarstock(componente):
+    conn = sqlite3.connect(bbdd)
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM componentes WHERE codigo = {componente}")
+
 def eliminarstockJSON():
     pass
 
 if __name__ == "__main__":
     exit = False
     crearTablas()
-    
-    #Menu para seleccionar las opciones
     while exit == False:
         print("\n=== INVENTARIO ===\n")
         print("1: Insertar nueva entrada")
@@ -245,14 +200,12 @@ if __name__ == "__main__":
         print("7: Salir")
         eleccion = input("\n")
         
-        #Bucles por si el usuario introduce mal los datos
         while not eleccion.isnumeric():
             eleccion = input("Debes introducir un numero: ")
         
         while int(eleccion) <= 0 or int(eleccion) > 7:
             eleccion = input("El numero debe ser uno entre el 1 y el 7: ")
         
-        #If que gestiona el menu
         if int(eleccion) == 1:
             insertarEntradas()
             entradaToComponentes()
@@ -265,17 +218,13 @@ if __name__ == "__main__":
             buscarComponente(componente)
         elif int(eleccion) == 4:
             nombreCSV = input("Introduce el nombre del archivo (si lo dejas vacio el nombre sera 'componentes'): ")
-            if nombreCSV == "":
-                exportarcsv()
-            else:
-                exportarcsv(nombreCSV)
+            exportarcsv(nombreCSV)
         elif int(eleccion) == 5:
             print("\n=== SELECCIONE METODO DE REDUCCION ===\n")
             print("1: Eliminar stock de un componente")
             print("2: Usar JSON para reducir automaticamente los componentes del dia")
             eleccion = input("\n")
         
-            #Mismos bucles que antes 
             while not eleccion.isnumeric():
                 eleccion = input("Debes introducir un numero: ")
         
@@ -283,9 +232,7 @@ if __name__ == "__main__":
                 eleccion = input("El numero debe ser el 1 o el 2: ")
             
             if int(eleccion) == 1:
-                componente = input("Introduce el codigo del componente que deseas eliminar: ")
-                cantidad = int(input("Introduce la cantidad de componentes que deseas eliminar: "))
-                eliminarstock(componente, cantidad)
+                eliminarstock()
             else:
                 eliminarstockJSON()
         elif int(eleccion) == 6:
