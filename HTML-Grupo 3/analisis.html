@@ -1,0 +1,171 @@
+<!-- 
+    Hecho por: Ibon
+-->
+<!doctype html>
+<html lang="es">
+    <head>
+    <meta charset="UTF-8" />
+    <!-- Icono que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <!-- Hace que la página se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Análisis - Fábrica Automotriz</title>
+    <!-- Enlace al archivo CSS, cambia según el tema seleccionado -->
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+    </head>
+    <body>
+    <!-- Cabecera de la página con navegación -->
+    <header>
+        <div class="header-container">
+        <!-- Logo de la empresa -->
+        <div class="logo-container">
+            <a href="index.html">
+            <img src="logo.png" alt="Logo Fábrica Automotriz" class="logo" />
+            </a>
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav>
+            <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="linea-produccion.html">Línea de Producción</a></li>
+            <li><a href="analisis.html">Análisis</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+
+        <!-- Botón para cambiar entre modo claro y oscuro -->
+        <div class="controles-tema">
+            <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="content">
+        <section class="section active">
+        <article>
+            <h1>Análisis del Problema</h1>
+
+            <!-- Descripción del gráfico -->
+            <p>
+            Este gráfico muestra claramente que la estación de
+            <strong>Pintura</strong>
+            tarda mucho más tiempo que las otras estaciones.
+            </p>
+
+            <!-- Gráfico de análisis de tiempos -->
+            <figure class="canvas-container">
+            <img
+                src="analisis.png"
+                alt="Gráfico de análisis de tiempos de producción"
+                style="max-width: 100%; height: auto; border-radius: 8px"
+            />
+            </figure>
+    
+            <!-- Conclusión del análisis -->
+            <p style="margin-top: 2rem; font-size: 1.1rem">
+            <strong>Conclusión:</strong> Mientras Montaje y Control tardan solo
+            3 segundos, Pintura necesita 8 segundos. Por eso se acumulan los
+            vehículos esperando a ser pintados.
+            </p>
+
+            <!-- Línea separadora -->
+            <hr
+            style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0"
+            />
+
+            <!-- Sección del concurso de animaciones -->
+            <h2 style="color: #2c3e50; margin-bottom: 1rem">
+            Concurso de Animaciones
+            </h2>
+
+            <!-- Descripción del concurso -->
+            <p style="font-size: 1.05rem; line-height: 1.7">
+            En nuestro grupo hemos realizado un concurso de animaciones para
+            representar la línea de producción de manera creativa. Después de
+            revisar todas las propuestas,
+            <strong>la animación ganadora ha sido la de Unax</strong>.
+            </p>
+
+            <!-- Caja destacada del ganador -->
+            <div
+            style="
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 1.5rem 0;
+                border-left: 4px solid #3498db;
+            "
+            >
+            <h3 style="color: #2c3e50; margin-bottom: 0.8rem">Ganador: Unax</h3>
+            <p style="margin-bottom: 0">
+                Su animación destaca por su claridad visual y la forma efectiva en
+                que representa el cuello de botella en la estación de Pintura.
+                Puedes ver su animación implementada en la
+                <a
+                href="linea-produccion.html"
+                style="color: #3498db; font-weight: bold"
+                >página de Línea de Producción</a
+                >.
+            </p>
+            </div>
+
+            <!-- Resultados completos del concurso -->
+            <p style="font-size: 0.95rem; color: #666; margin-top: 1.5rem">
+            <strong>Resultado del concurso:</strong><br />
+            1º Lugar: Unax<br />
+            2º Lugar: Joseba<br />
+            3º Lugar: Yeling
+            </p>
+        </article>
+        </section>
+    </div>
+    
+    <!-- Pie de página -->
+    <footer class="footer">UrbanDrive 2026</footer>
+    
+    <script>
+        // El script de cambiar el color del tema lo he buscado en internet, pero no ha sido en CHatgpt sino que en las busquedas de google.
+
+      // Cargar el tema guardado cuando se abre la página
+        window.addEventListener("DOMContentLoaded", function () {
+        // Obtiene el tema guardado del navegador
+        const temaGuardado = localStorage.getItem("tema");
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+
+        // Aplica el tema guardado (oscuro o claro)
+        if (temaGuardado === "oscuro") {
+            link.href = "oscuro.css";
+            btn.textContent = "Modo Claro";
+        } else {
+            link.href = "claro.css";
+            btn.textContent = "Modo Oscuro";
+        }
+        });
+
+      // Función para cambiar entre modo claro y oscuro
+        function cambiarTema() {
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+        // Si no hay tema guardado, por defecto es 'claro'
+        const temaActual = localStorage.getItem("tema") || "claro";
+
+        // Cambia al tema contrario
+        if (temaActual === "claro") {
+            // Cambia a modo oscuro
+            link.href = "oscuro.css";
+            btn.textContent = "Modo Claro";
+            localStorage.setItem("tema", "oscuro");
+        } else {
+            // Cambia a modo claro
+            link.href = "claro.css";
+            btn.textContent = "Modo Oscuro";
+            localStorage.setItem("tema", "claro");
+        }
+        }
+    </script>
+    </body>
+</html>

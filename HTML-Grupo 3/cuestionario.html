@@ -1,0 +1,156 @@
+<!-- 
+    Hecho por: Ibon
+-->
+<!doctype html>
+<html lang="es">
+    <head>
+    <meta charset="UTF-8" />
+    <!-- Icono que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <!-- Hace que la página se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto - UrbanDrive</title>
+    <!-- Enlace al archivo CSS, cambia según el tema seleccionado -->
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+    </head>
+
+    <body>
+    <!-- Cabecera de la página con navegación -->
+    <header>
+        <div class="header-container">
+        <!-- Logo de la empresa -->
+        <div class="logo-container">
+            <a href="index.html">
+            <img src="logo.png" alt="Logo UrbanDrive" class="logo" />
+            </a>
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="linea-produccion.html">Línea de Producción</a></li>
+            <li><a href="analisis.html">Análisis</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        </nav>
+
+        <!-- Botón para cambiar entre modo claro y oscuro -->
+        <div class="controles-tema">
+            <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="content">
+        <section class="section active">
+        <article class="form-box">
+            <h1>Formulario de Solicitud</h1>
+
+            <!-- Formulario de contacto que envía datos a Formspree -->
+            <form action="https://formspree.io/f/meegpaey" method="POST">
+            <!-- Campo nombre (obligatorio) -->
+            <label for="nombre">Nombre *</label>
+            <input id="nombre" name="nombre" type="text" required />
+
+            <!-- Campo email (obligatorio) -->
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required />
+
+            <!-- Campo empresa (opcional) -->
+            <label for="empresa">Empresa</label>
+            <input id="empresa" name="empresa" type="text" />
+
+            <!-- Tipo de solicitud (obligatorio) -->
+            <label for="tipo">Tipo de solicitud *</label>
+            <select id="tipo" name="tipo" required>
+                <option value="">Selecciona...</option>
+                <option>Pregunta</option>
+                <option>Reclamación</option>
+                <option>Pedido de piezas</option>
+                <option>Soporte técnico</option>
+            </select>
+
+            <!-- Modelo del vehículo (opcional) -->
+            <label for="modelo">Modelo del vehículo</label>
+            <input
+                id="modelo"
+                name="modelo"
+                type="text"
+                placeholder="Ej: UrbanDrive X 2026"
+            />
+
+            <!-- Mensaje (obligatorio) -->
+            <label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+
+            <!-- Campo oculto anti-spam (honeypot) -->
+            <input
+                type="text"
+                name="_gotcha"
+                class="hp"
+                tabindex="-1"
+                autocomplete="off"
+            />
+
+            <!-- Botón de envío -->
+            <button type="submit" class="btn-form">Enviar</button>
+            </form>
+
+            <!-- Nota informativa sobre el envío -->
+            <p class="form-note">
+            Al enviar, se abrirá la página de confirmación de Formspree (o la
+            que configures).
+            </p>
+        </article>
+        </section>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="footer">UrbanDrive 2026</footer>
+
+    <script>
+        // El script de cambiar el color del tema lo he buscado en internet, pero no ha sido en CHatgpt sino que en las busquedas de google.
+      // Cargar el tema guardado cuando se abre la página
+        window.addEventListener("DOMContentLoaded", function () {
+        // Obtiene el tema guardado del navegador
+        const tema = localStorage.getItem("tema") || "claro";
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+
+        // Aplica el tema guardado (oscuro o claro)
+        if (tema === "oscuro") {
+            link.href = "oscuro.css";
+            btn.textContent = "Modo Claro";
+        } else {
+            link.href = "claro.css";
+            btn.textContent = "Modo Oscuro";
+        }
+        });
+
+        // Función para cambiar entre modo claro y oscuro
+        function cambiarTema() {
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+
+        // Si no hay tema guardado, por defecto es 'claro'
+        const temaActual = localStorage.getItem("tema") || "claro";
+        // Cambia al tema contrario
+        const nuevoTema = temaActual === "claro" ? "oscuro" : "claro";
+        // Guarda el nuevo tema en el navegador
+        localStorage.setItem("tema", nuevoTema);
+
+        // Aplica el nuevo tema
+        if (nuevoTema === "oscuro") {
+            link.href = "oscuro.css";
+            btn.textContent = "Modo Claro";
+        } else {
+            link.href = "claro.css";
+            btn.textContent = "Modo Oscuro";
+        }
+        }
+    </script>
+    </body>
+</html>

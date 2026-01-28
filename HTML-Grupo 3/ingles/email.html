@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Templates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .template-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .template {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .copied {
+            display: none;
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="template-box">
+        <h1>Email Templates</h1>
+        
+        <select id="select" onchange="showTemplate()">
+            <option value="">Choose a template...</option>
+            <option value="order">Order Confirmation</option>
+            <option value="delay">Delivery Delay</option>
+            <option value="parts">Parts Inquiry</option>
+            <option value="support">Technical Support</option>
+            <option value="complaint">Complaint Received</option>
+        </select>
+
+        <div id="content"></div>
+        <div class="copied" id="copied">✓ Copied to clipboard!</div>
+    </div>
+    <footer class="footer">
+        UrbanDrive 2026
+    </footer>
+    <script>
+        const templates = {
+            order: `Dear [Customer Name],
+
+Thank you for your order.
+
+Order Number: [ORDER-XXX]
+Estimated Delivery: [Date]
+
+You will receive tracking information once shipped.
+
+Best regards,
+Commercial Department`,
+
+            delay: `Dear [Customer Name],
+
+We apologize for the delay in your order [ORDER-XXX].
+
+Original Date: [Date]
+New Delivery Date: [Date]
+Reason: [Brief explanation]
+
+We apologize for the inconvenience.
+
+Best regards,
+Commercial Department`,
+
+            parts: `Dear [Customer Name],
+
+Part Information:
+- Part Number: [PART-XXX]
+- Availability: [In Stock / X days]
+- Price: [Amount]
+
+Please confirm to proceed with your order.
+
+Best regards,
+Commercial Department`,
+
+            support: `Dear [Customer Name],
+
+We received your technical support request.
+
+Ticket Number: [TICKET-XXX]
+Issue: [Brief description]
+
+Our team will contact you within 24-48 hours.
+
+Best regards,
+Technical Support`,
+
+            complaint: `Dear [Customer Name],
+
+We received your complaint and apologize for any inconvenience.
+
+Complaint Number: [COMP-XXX]
+Issue: [Brief description]
+
+We will investigate and respond within 3-5 business days.
+
+Best regards,
+Customer Service`
+        };
+
+        function showTemplate() {
+            const selected = document.getElementById('select').value;
+            const content = document.getElementById('content');
+            
+            if (selected) {
+                content.innerHTML = `
+                    <div class="template" id="template">${templates[selected]}</div>
+                    <button onclick="copyText()">Copy Template</button>
+                `;
+            } else {
+                content.innerHTML = '';
+            }
+        }
+
+        function copyText() {
+            const text = document.getElementById('template').innerText;
+            navigator.clipboard.writeText(text);
+            document.getElementById('copied').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('copied').style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

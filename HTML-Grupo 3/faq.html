@@ -1,0 +1,177 @@
+<!-- 
+    Hecho por: Alex
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <!-- Icono que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <!-- Hace que la página se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - Fábrica Automotriz</title>
+    <!-- Enlace al archivo CSS, cambia según el tema seleccionado -->
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+</head>
+
+<body>
+    <!-- Cabecera de la página con navegación -->
+    <header>
+    <div class="header-container">
+        <!-- Logo de la empresa -->
+        <div class="logo-container">
+        <a href="index.html">
+            <img src="logo.png" alt="Logo Fábrica Automotriz" class="logo" />
+        </a>
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="linea-produccion.html">Línea de Producción</a></li>
+            <li><a href="analisis.html">Análisis</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        </nav>
+
+        <!-- Botón para cambiar entre modo claro y oscuro -->
+        <div class="controles-tema">
+        <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+    </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="content">
+    <section class="section active">
+        <article>
+        <h1>Preguntas Frecuentes</h1>
+
+        <!-- Contenedor de todas las preguntas y respuestas -->
+        <div class="faq-box">
+            <!-- Pregunta 1: Piezas de repuesto -->
+            <button class="faq-question" type="button" onclick="toggle(0)">
+            ¿Cómo pido piezas de repuesto?
+            </button>
+            <div class="faq-answer" id="a0">
+            Contacta con tu representante e indica el VIN y el número de pieza. Normalmente se procesa en 24 horas.
+            </div>
+
+            <!-- Pregunta 2: Tiempo de entrega -->
+            <button class="faq-question" type="button" onclick="toggle(1)">
+            ¿Cuál es el tiempo de entrega?
+            </button>
+            <div class="faq-answer" id="a1">
+            Envío estándar: 3-5 días laborables. Hay opciones exprés según disponibilidad.
+            </div>
+
+            <!-- Pregunta 3: Reportar defectos -->
+            <button class="faq-question" type="button" onclick="toggle(2)">
+            ¿Cómo puedo reportar un defecto?
+            </button>
+            <div class="faq-answer" id="a2">
+            Usa el formulario de incidencias e incluye fotos y el VIN. Respuesta aproximada: 24-48 horas.
+            </div>
+
+            <!-- Pregunta 4: Manuales técnicos -->
+            <button class="faq-question" type="button" onclick="toggle(3)">
+            ¿Dónde están los manuales técnicos?
+            </button>
+            <div class="faq-answer" id="a3">
+            La documentación está en el portal de soporte. Si no tienes acceso, contacta con soporte.
+            </div>
+
+            <!-- Pregunta 5: Garantía -->
+            <button class="faq-question" type="button" onclick="toggle(4)">
+            ¿Cuál es el periodo de garantía?
+            </button>
+            <div class="faq-answer" id="a4">
+            Piezas estándar: 12 meses. Sistema de propulsión: 24 meses. Se requiere comprobante de compra.
+            </div>
+
+            <!-- Pregunta 6: Cancelar pedido -->
+            <button class="faq-question" type="button" onclick="toggle(5)">
+            ¿Puedo cancelar un pedido?
+            </button>
+            <div class="faq-answer" id="a5">
+            Se puede cancelar en las primeras 24 horas si aún no está en producción. Contacta lo antes posible.
+            </div>
+
+            <!-- Pregunta 7: Seguimiento de envío -->
+            <button class="faq-question" type="button" onclick="toggle(6)">
+            ¿Cómo hago seguimiento del envío?
+            </button>
+            <div class="faq-answer" id="a6">
+            Te enviamos el tracking por email. También puedes consultar el estado en el portal de clientes.
+            </div>
+
+            <!-- Pregunta 8: Métodos de pago -->
+            <button class="faq-question" type="button" onclick="toggle(7)">
+            ¿Qué métodos de pago aceptáis?
+            </button>
+            <div class="faq-answer" id="a7">
+            Transferencia bancaria, tarjeta corporativa y órdenes de compra (cuentas aprobadas).
+            </div>
+        </div>
+        </article>
+    </section>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+    UrbanDrive 2026
+    </footer>
+
+    <script>
+    // El script de cambiar el color del tema lo he buscado en internet, pero no ha sido en CHatgpt sino que en las busquedas de google.
+    // Cargar el tema guardado cuando se abre la página
+    window.addEventListener('DOMContentLoaded', function () {
+        // Obtiene el tema guardado del navegador
+        const temaGuardado = localStorage.getItem('tema') || 'claro';
+        const link = document.getElementById('tema-principal');
+        const btn = document.getElementById('btn-tema');
+
+        // Aplica el tema guardado (oscuro o claro)
+        if (temaGuardado === 'oscuro') {
+        link.href = 'oscuro.css';
+        btn.textContent = 'Modo Claro';
+        } else {
+        link.href = 'claro.css';
+        btn.textContent = 'Modo Oscuro';
+        }
+    });
+
+    // Función para cambiar entre modo claro y oscuro
+    function cambiarTema() {
+        const link = document.getElementById('tema-principal');
+        const btn = document.getElementById('btn-tema');
+
+        // Si no hay tema guardado, por defecto es 'claro'
+        const temaActual = localStorage.getItem('tema') || 'claro';
+        // Cambia al tema contrario
+        const nuevoTema = (temaActual === 'claro') ? 'oscuro' : 'claro';
+        // Guarda el nuevo tema en el navegador
+        localStorage.setItem('tema', nuevoTema);
+
+        // Aplica el nuevo tema
+        if (nuevoTema === 'oscuro') {
+        link.href = 'oscuro.css';
+        btn.textContent = 'Modo Claro';
+        } else {
+        link.href = 'claro.css';
+        btn.textContent = 'Modo Oscuro';
+        }
+    }
+
+    // Función para mostrar/ocultar respuestas al hacer clic
+    function toggle(num) {
+        // Busca la respuesta con el id correspondiente
+        const answer = document.getElementById('a' + num);
+        // Añade o quita la clase 'show' para mostrar/ocultar
+        answer.classList.toggle('show');
+    }
+    </script>
+</body>
+</html>

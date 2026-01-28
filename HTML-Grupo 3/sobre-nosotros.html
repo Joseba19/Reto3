@@ -1,0 +1,159 @@
+<!-- 
+    Hecho por: Alex y Unax
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <!-- Icono que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <!-- Hace que la página se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre Nosotros - UrbanDrive</title>
+    <!-- Enlace al archivo CSS, cambia según el tema seleccionado -->
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+</head>
+
+<body>
+    <!-- Cabecera de la página con navegación -->
+    <header>
+    <div class="header-container">
+        <!-- Logo de la empresa -->
+        <div class="logo-container">
+        <a href="index.html">
+            <img src="logo.png" alt="Logo UrbanDrive" class="logo" />
+        </a>
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="linea-produccion.html">Línea de Producción</a></li>
+            <li><a href="analisis.html">Análisis</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        </nav>
+
+        <!-- Botón para cambiar entre modo claro y oscuro -->
+        <div class="controles-tema">
+        <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+    </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="content">
+    <section class="section active">
+        <article>
+        <h1>Sobre Nosotros</h1>
+
+        <!-- Descripción del proyecto -->
+        <p>
+            UrbanDrive es un proyecto centrado en la digitalización de una fábrica automotriz, con el objetivo de
+            simular procesos de producción, detectar cuellos de botella y presentar información de forma clara.
+        </p>
+
+        <p>
+            Fundada en 2010, nuestra empresa ha crecido para convertirse en un referente en la industria automotriz.
+            Contamos con un equipo de profesionales enfocados en innovación, calidad y mejora continua.
+        </p>
+
+        <!-- Ubicación de la empresa -->
+        <h2 style="margin-top: 18px;">Dónde estamos</h2>
+        <p>
+            Nuestra oficina principal se encuentra en Donostia / San Sebastián, en la zona de Amara (Gipuzkoa),
+            una ubicación bien conectada y cercana a centros de innovación y transporte.
+        </p>
+        <p>
+            Dirección (referencia): Donostia-San Sebastián, Amara, 20010.
+        </p>
+
+        <!-- Horario de atención -->
+        <h2 style="margin-top: 18px;">Horario</h2>
+        <p>
+            Lunes a viernes: 9:00 – 17:00<br>
+            Sábados: 10:00 – 13:00<br>
+            Domingos y festivos: Cerrado
+        </p>
+
+        <!-- Información de contacto -->
+        <h2 style="margin-top: 18px;">Contacto</h2>
+        <p>
+            Teléfono: <a href="tel:+34943123456">+34 943 123 456</a><br>
+            Email: <a href="mailto:contacto@urbandrive.eus">contacto@urbandrive.eus</a>
+        </p>
+
+        <!-- Misión y valores de la empresa -->
+        <h2 style="margin-top: 18px;">Misión y valores</h2>
+        <p>
+            Nuestra misión es crear soluciones automotrices modernas, sostenibles y eficientes, apoyándonos en
+            herramientas digitales para optimizar la producción.
+        </p>
+        <p>
+            Nuestros valores fundamentales incluyen la excelencia, la innovación, la sostenibilidad y el compromiso con
+            nuestros clientes.
+        </p>
+
+        <!-- Servicios que ofrece la empresa -->
+        <h2 style="margin-top: 18px;">Qué ofrecemos</h2>
+        <p>
+            Trabajamos en el diseño y mejora de procesos, análisis de tiempos por estación y propuestas para reducir
+            esperas en la línea de producción, especialmente cuando aparece un cuello de botella.
+        </p>
+
+        <!-- Botón para ir al cuestionario -->
+        <div style="margin-top: 18px;">
+            <a class="btn-link" href="cuestionario.html">Rellenar cuestionario</a>
+        </div>
+        </article>
+    </section>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+    UrbanDrive 2026
+    </footer>
+
+    <script>
+    // Cargar el tema guardado cuando se abre la página
+    window.addEventListener('DOMContentLoaded', function() {
+        // Obtiene el tema guardado del navegador
+        const temaGuardado = localStorage.getItem('tema');
+        const link = document.getElementById('tema-principal');
+        const btn = document.getElementById('btn-tema');
+
+        // Aplica el tema guardado (oscuro o claro)
+        if (temaGuardado === 'oscuro') {
+        link.href = 'oscuro.css';
+        btn.textContent = 'Modo Claro';
+        } else {
+        link.href = 'claro.css';
+        btn.textContent = 'Modo Oscuro';
+        }
+    });
+
+    // Función para cambiar entre modo claro y oscuro
+    function cambiarTema() {
+        const link = document.getElementById('tema-principal');
+        const btn = document.getElementById('btn-tema');
+        // Si no hay tema guardado, por defecto es 'claro'
+        const temaActual = localStorage.getItem('tema') || 'claro';
+
+        // Cambia al tema contrario
+        if (temaActual === 'claro') {
+        // Cambia a modo oscuro
+        link.href = 'oscuro.css';
+        btn.textContent = 'Modo Claro';
+        localStorage.setItem('tema', 'oscuro');
+        } else {
+        // Cambia a modo claro
+        link.href = 'claro.css';
+        btn.textContent = 'Modo Oscuro';
+        localStorage.setItem('tema', 'claro');
+        }
+    }
+    </script>
+</body>
+</html>

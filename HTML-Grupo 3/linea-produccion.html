@@ -1,0 +1,172 @@
+<!-- 
+    Página Línea de Producción - UrbanDrive
+    Hecho por: Unax
+-->
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Icono que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <!-- Hace que la página se vea bien en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Línea de Producción - Fábrica Automotriz</title>
+    <!-- Enlace al archivo CSS, cambia según el tema seleccionado -->
+    <link id="tema-principal" rel="stylesheet" href="claro.css" />
+  </head>
+  <body>
+    <!-- Cabecera de la página con navegación -->
+    <header>
+      <div class="header-container">
+        <!-- Logo de la empresa -->
+        <div class="logo-container">
+          <a href="index.html">
+            <img src="logo.png" alt="Logo Fábrica Automotriz" class="logo" />
+          </a>
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="linea-produccion.html">Línea de Producción</a></li>
+            <li><a href="analisis.html">Análisis</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </nav>
+
+        <!-- Botón para cambiar entre modo claro y oscuro -->
+        <div class="controles-tema">
+          <button id="btn-tema" onclick="cambiarTema()">Modo Oscuro</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="content">
+      <section class="section active">
+        <article>
+          <h1>Línea de Producción</h1>
+          <!-- Descripción del problema del cuello de botella -->
+          <p class="subtitulo-animacion">
+            Los vehículos se mueven por la línea de producción. La estación de
+            <strong>Pintura</strong> es un cuello de botella donde se ralentiza
+            el proceso.
+          </p>
+
+          <!-- Control para ajustar la velocidad de la animación -->
+          <div class="controles-animacion">
+            <div class="control-velocidad">
+              <label for="velocidad">Velocidad:</label>
+              <input
+                type="range"
+                id="velocidad"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value="1"
+              />
+              <span id="valor-velocidad">1x</span>
+            </div>
+          </div>
+
+          <!-- Animación de la línea de producción -->
+          <figure class="contenedor-linea">
+            <div class="cinta">
+              <!-- Estación 1: Montaje (3 segundos) -->
+              <div class="estacion estacion-1">
+                Montaje
+                <span class="estacion-tiempo">3s</span>
+              </div>
+
+              <!-- Estación 2: Pintura (8 segundos - cuello de botella) -->
+              <div class="estacion estacion-2">
+                Pintura
+                <span class="estacion-tiempo">8s</span>
+              </div>
+
+              <!-- Estación 3: Control (3 segundos) -->
+              <div class="estacion estacion-3">
+                Control
+                <span class="estacion-tiempo">3s</span>
+              </div>
+
+              <!-- Coches que se mueven por la línea -->
+              <div class="camino">
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+                <div class="coche-animado"></div>
+              </div>
+            </div>
+          </figure>
+
+          <!-- Nota explicativa sobre el cuello de botella -->
+          <aside class="nota-animacion">
+            <strong>Nota:</strong> La estación de Pintura parpadea porque es
+            donde se genera el cuello de botella. Los vehículos se ralentizan en
+            esta zona.
+          </aside>
+        </article>
+      </section>
+    </div>
+    
+    <!-- Pie de página -->
+    <footer class="footer">UrbanDrive 2026</footer>
+    
+    <script>
+      // El script de cambiar el color del tema lo he buscado en internet, pero no ha sido en CHatgpt sino que en las busquedas de google.
+      // Cargar el tema guardado cuando se abre la página
+      window.addEventListener("DOMContentLoaded", function () {
+        // Obtiene el tema guardado del navegador
+        const temaGuardado = localStorage.getItem("tema");
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+
+        // Aplica el tema guardado (oscuro o claro)
+        if (temaGuardado === "oscuro") {
+          link.href = "oscuro.css";
+          btn.textContent = "Modo Claro";
+        } else {
+          link.href = "claro.css";
+          btn.textContent = "Modo Oscuro";
+        }
+      });
+
+      // Función para cambiar entre modo claro y oscuro
+      function cambiarTema() {
+        const link = document.getElementById("tema-principal");
+        const btn = document.getElementById("btn-tema");
+        // Si no hay tema guardado, por defecto es 'claro'
+        const temaActual = localStorage.getItem("tema") || "claro";
+
+        // Cambia al tema contrario
+        if (temaActual === "claro") {
+          // Cambia a modo oscuro
+          link.href = "oscuro.css";
+          btn.textContent = "Modo Claro";
+          localStorage.setItem("tema", "oscuro");
+        } else {
+          // Cambia a modo claro
+          link.href = "claro.css";
+          btn.textContent = "Modo Oscuro";
+          localStorage.setItem("tema", "claro");
+        }
+      }
+
+      // Control de velocidad de animación echo con IA
+      document
+        .getElementById("velocidad")
+        .addEventListener("input", function () {
+          // Actualiza el texto que muestra la velocidad
+          document.getElementById("valor-velocidad").textContent =
+            this.value + "x";
+          // Cambia la velocidad de todos los coches
+          document.querySelectorAll(".coche-animado").forEach((coche) => {
+            coche.style.animationDuration = 15 / this.value + "s";
+          });
+        });
+    </script>
+  </body>
+</html>
