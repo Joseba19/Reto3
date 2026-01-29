@@ -1,127 +1,123 @@
-# Reto3 - Python
+# Reto 3 - Sistema de Gestión de Inventario
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+Sistema de gestión de inventario para una empresa de automoción desarrollado en Python como parte del Reto 3 del curso 1DM3.
 
 ## 📋 Descripción
 
-Proyecto Python desarrollado como parte del Reto 3. Este repositorio contiene la implementación y soluciones propuestas para los desafíos planteados.
+Este programa permite gestionar el inventario de componentes de automoción que llegan a la empresa. El sistema automatiza el registro de recepciones diarias, controla el stock de componentes, identifica piezas defectuosas y genera reportes exportables.
 
-## 🚀 Características
+### Funcionalidades principales
 
-- Implementación en Python
-- Código modular y reutilizable
-- Documentación clara
-- Fácil de instalar y ejecutar
+- **Gestión de recepciones**: Importa automáticamente los datos de entrada diaria desde archivos JSON (`entradaYYYY-MM-DD.json`)
+- **Control de stock**: Mantiene un registro actualizado del inventario de componentes con su código, descripción, cantidad y última entrada
+- **Registro de defectos**: Identifica y almacena componentes defectuosos con su tipo de defecto y cantidad
+- **Búsqueda de componentes**: Permite consultar componentes específicos y visualizar sus defectos acumulados
+- **Exportación de datos**: Genera archivos CSV con el inventario completo para análisis externo
+- **Gestión de salidas**: Reduce el stock mediante entrada manual o carga masiva desde JSON (`salidaYYYY-MM-DD.json`)
 
-## 📁 Estructura del Proyecto
+### Estructura de la base de datos
 
-```
-Python/
-├── src/              # Código fuente principal
-├── tests/            # Pruebas unitarias
-├── docs/             # Documentación adicional
-├── requirements.txt  # Dependencias del proyecto
-└── README.md         # Este archivo
-```
+El sistema utiliza SQLite con tres tablas principales:
 
-## 🔧 Requisitos Previos
+1. **componentes**: Almacena el inventario actual (código, descripción, stock, última entrada)
+2. **recepciones**: Registra todas las entradas de componentes con detalles de proveedor, lote y estado
+3. **defectuosos**: Mantiene un registro de componentes defectuosos vinculados a recepciones específicas
+
+## 🔧 Requisitos
 
 - Python 3.8 o superior
-- pip (gestor de paquetes de Python)
-- Git
+- SQLite3 (incluido en Python)
+
+### Dependencias
+
+```
+pandas
+```
 
 ## 📥 Instalación
 
-1. Clona este repositorio:
+1. Clona el repositorio:
 ```bash
 git clone https://github.com/Joseba19/Reto3.git
 cd Reto3/Python
 ```
 
-2. (Opcional) Crea un entorno virtual:
+2. Instala las dependencias necesarias:
 ```bash
-python -m venv venv
+pip install pandas
 ```
 
-3. Activa el entorno virtual:
-   - En Windows:
-   ```bash
-   venv\Scripts\activate
-   ```
-   - En Linux/Mac:
-   ```bash
-   source venv/bin/activate
-   ```
-
-4. Instala las dependencias:
+3. Crea la carpeta `Archivos` en el directorio principal:
 ```bash
-pip install -r requirements.txt
+mkdir Archivos
 ```
+
+4. Coloca los archivos JSON de entrada en la carpeta `Archivos` con el formato:
+   - `entradaYYYY-MM-DD.json` para recepciones
+   - `salidaYYYY-MM-DD.json` para salidas (opcional)
 
 ## 💻 Uso
 
-Para ejecutar el proyecto:
+Ejecuta el programa principal:
 
 ```bash
 python main.py
 ```
 
-### Ejemplos de uso
+### Menú de opciones
 
-```python
-# Ejemplo básico de uso
-from src import modulo_principal
+1. **Insertar nueva entrada**: Procesa el archivo JSON del día actual e inserta los datos en la base de datos
+2. **Visualizar componentes y stock**: Muestra todos los componentes con su stock actual
+3. **Buscar componentes defectuosos**: Consulta defectos por código de componente
+4. **Exportar componentes en formato CSV**: Genera un archivo CSV con el inventario
+5. **Eliminar stock**: Reduce el stock manualmente o mediante JSON
+6. **Eliminar la base de datos**: Resetea las tablas (usar con precaución)
+7. **Salir**: Cierra el programa
 
-# Tu código aquí
+### Formato de archivos JSON
+
+**Archivo de entrada** (`entradaYYYY-MM-DD.json`):
+```json
+{
+  "recepciones": [
+    {
+      "fecha": "2025-01-29",
+      "codigo": "COMP-001",
+      "descripcion": "Filtro de aceite",
+      "cantidad": 100,
+      "proveedor": "Proveedor S.A.",
+      "lote": "L2025-01",
+      "estado": "Aceptado",
+      "cantidad_defectuosas": 5,
+      "observaciones": "Embalaje dañado en 5 unidades"
+    }
+  ]
+}
 ```
 
-## 🧪 Pruebas
-
-Para ejecutar las pruebas:
-
-```bash
-python -m pytest tests/
+**Archivo de salida** (`salidaYYYY-MM-DD.json`):
+```json
+{
+  "salidas": [
+    {
+      "codigo": "COMP-001",
+      "cantidad": 50
+    }
+  ]
+}
 ```
 
-## 📚 Documentación
-
-La documentación completa del proyecto se encuentra en la carpeta `docs/`.
-
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologías
 
 - **Python**: Lenguaje de programación principal
-- **[Otras librerías]**: Descripción de las librerías utilizadas
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu característica (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+- **SQLite**: Base de datos relacional integrada
+- **JSON**: Formato de intercambio de datos
+- **Pandas**: Librería para exportación de datos a CSV
 
 ## ✒️ Autor
 
-**Joseba19**
-
-- GitHub: [@Joseba19](https://github.com/Joseba19)
-
-## 📧 Contacto
-
-Si tienes alguna pregunta o sugerencia, no dudes en abrir un issue en el repositorio.
-
-## 🙏 Agradecimientos
-
-- A todos los que han contribuido al proyecto
-- A la comunidad de Python por los recursos y herramientas
+**Joseba19** - [GitHub](https://github.com/Joseba19)
 
 ---
 
-⭐ Si este proyecto te ha sido útil, considera darle una estrella en GitHub
+Proyecto desarrollado para el curso 1DM3 - Reto 3
