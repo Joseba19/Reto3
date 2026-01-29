@@ -117,7 +117,7 @@ python main.py
 
 ## ✒️ Autor
 
-**Joseba19** - [GitHub](https://github.com/Joseba19)
+**Grupo Kyoto** - [GitHub](https://github.com/Joseba19)
 
 ---
 
