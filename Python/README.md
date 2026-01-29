@@ -81,15 +81,15 @@ python main.py
 {
   "recepciones": [
     {
-      "fecha": "2025-01-29",
-      "codigo": "COMP-001",
-      "descripcion": "Filtro de aceite",
-      "cantidad": 100,
-      "proveedor": "Proveedor S.A.",
-      "lote": "L2025-01",
-      "estado": "Aceptado",
-      "cantidad_defectuosas": 5,
-      "observaciones": "Embalaje dañado en 5 unidades"
+      "fecha": "2026-01-26",
+      "codigo": "COMP-A-1234",
+      "descripcion": "Filtro de aceite premium",
+      "cantidad": 172,
+      "cantidad_defectuosas": 1,
+      "proveedor": "ProveedorTech",
+      "lote": "LOTE-2026-165",
+      "estado": "DEFECTUOSO",
+      "observaciones": "1 unidad con rosca defectuosa"
     }
   ]
 }
@@ -100,8 +100,9 @@ python main.py
 {
   "salidas": [
     {
-      "codigo": "COMP-001",
-      "cantidad": 50
+      "fecha": "2026-01-28",
+      "codigo": "COMP-A-1234",
+      "cantidad": 45
     }
   ]
 }
