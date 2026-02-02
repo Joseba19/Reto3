@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Animación</title>
+    <style>
+        body {
+            background: #eee;
+            padding: 50px;
+        }
+        
+        h1 {
+            font-family: Arial;
+        }
+
+        .contenedor {
+            width: 600px;
+            height: 100px;
+            background: #ccc;
+            border: 2px solid black;
+            position: relative;
+        }
+
+        .caja {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: red;
+            top: 30px;
+            animation: mover 5s linear infinite;
+        }
+
+        .caja2 {
+            background: blue;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes mover {
+            from { left: 0; }
+            to { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Animacion Yeling</h1>
+    
+    <div class="contenedor">
+        <div class="caja"></div>
+        <div class="caja caja2"></div>
+    </div>
+</body>
+</html>

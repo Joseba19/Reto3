@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Animacion</title>
+    <style>
+        body {
+            padding: 30px;
+            font-family: Arial;
+            background: #f0f0f0;
+        }
+
+        .fila {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .item {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .gris { background: #999; }
+        .amarillo { background: #ff0; }
+        .verde { background: #0f0; }
+
+        .flecha {
+            font-size: 30px;
+            color: #666;
+        }
+
+        .animado {
+            animation: cambiar 6s linear infinite;
+        }
+
+        @keyframes cambiar {
+            0% { background: #999; }
+            33% { background: #ff0; }
+            66% { background: #0f0; }
+            100% { background: #999; }
+        }
+    </style>
+</head>
+<body>
+    <h2>Animación Alex</h2>
+    <p>El cuadrado cambia de color según avanza</p>
+    
+    <div class="fila">
+        <div class="item gris">Inicio</div>
+        <span class="flecha">→</span>
+        <div class="item amarillo">Proceso</div>
+        <span class="flecha">→</span>
+        <div class="item verde">Fin</div>
+    </div>
+
+    <h3>Versión animada:</h3>
+    <div class="item animado" style="width: 100px; height: 100px;">
+        AUTO
+    </div>
+</body>
+</html>
